@@ -15,36 +15,115 @@ function iniciar() {
     form.onsubmit = validar;
 }
 
+/**
+ * Función que permite comprobar que los campos del formulario estén correctos.
+ * @param {*} event - Eventos del formularios
+ * @returns - Devuelve false si algún dato es incorrecto.
+ */
 function validar(event) {
     
     //event.preventDefault();
 
+    //Variables locales
+    let arrayErrores = [];
+    let hayError = false;
+
+    //Comprobamos que el nombre tiene más de 3 caracteres.
+    if(!document.getElementById("iNombre").value.match("[a-zA-Z]{3}")){
+        arrayErrores.push("El campo de nombre no está rellenado o tiene muy pocos carácteres");
+        hayError = true;
+    }
+    
+    //Comprobamos que los apellidos tienen dos palabras al menos.
+    if(document.getElementById("iApellidos").value.length < 2) {
+        arrayErrores.push("El campo de apellidos no está rellenado o tiene muy pocos carácteres");
+        hayError = true;
+    }
+
+    //Comprobamos que el NIF sea correcto cogiendo el pattern del HTML.
+    if(!document.getElementById("iNIF").pattern) {
+        arrayErrores.push("El campo NIF no está rellenado o tiene un formato incorrecto");
+        hayError = true;
+    }
 
     //Comprobamos que haya aceptado la P.P
-    if(!document.getElementById("iPolitica").checked)
-        return false;
+    if(!document.getElementById("iPolitica").checked) {
+        arrayErrores.push("No has aceptado la política de privacidad");
+        hayError = true;
+    }
 
     //Comprobamos que el nombre tenga más de 2 letras.
-    if(document.getElementById("iNombre").value.length <2) {
+    /*if(document.getElementById("iNombre").value.length <2) {
         document.getElementById("iNombre").focus();
         return false;
+    }*/
 
-    }
     //Si eres Asturiano y te gusta el brócoli, pa fuera.
-    if(document.getElementById("rSi").checked && document.getElementById("sComunidad").options[2])
-        return false;
+    if(document.getElementById("rSi").checked && document.getElementById("sComunidad").options[2]) {
+        arrayErrores.push("Si eres de Asturias no puede gustarte el brócoli.");
+        hayError = true;
+    }
     
     //Comprobación regex del teléfono.
-    if(!document.getElementById("iTelefono").value.match("[0-9]{9}"))
+    if(!document.getElementById("iTelefono").value.match("[0-9]{9}")) {
+        arrayErrores.push("El campo de teléfono no está rellenado o tiene un formato incorrecto");
+        hayError = true;
+    }
+
+    /*
+        _______________________________
+            == Muestra de errores ==
+        _______________________________
+    */
+
+    //Si hay algún error evita que se envie el formulario y crea una lista con los errores.
+    if(hayError) { 
+        errores(arrayErrores);
         return false;
-    
+    }
+
+    //Si se ha enviado correctamente, resetear errores.
     console.log("valida");
 
-    //return false; <- le indico al navegador que no pase nada
 }
 
-//Función que controla a que elemento se le ha hecho click.
+/**
+ * Función que crea una lista con todos los errores.
+ * @param {*} arrayErrores - Array con la lista de todos los errores del formulario.
+ */
+function errores(arrayErrores) {
+
+    let div = document.createElement("div");
+    div.id = "listaErrores";
+
+    let ul = document.createElement("ul");;
+    let li = null;
+
+    //Recorrer un array con el texto de cada error.
+    for(let errores of arrayErrores ){
+        li = document.createElement("li");
+
+        li.textContent = errores;
+
+        ul.appendChild(li);
+    }
+
+    div.appendChild(ul);
+
+    document.body.insertBefore(div,document.querySelector(".container"));
+    
+}
+
+/**
+ * Función que controla a que elemento se le ha hecho click.
+ * @param {*} event - Evento del click
+ */
 function clicks(event) {
+    /*
+        _____________________________________
+            == Click al select de CCAA==
+        _____________________________________
+    */
     if(!(document.getElementById("sProvincia")) && event.target.id == "sComunidad" && event.target.value==11) {
         provincia();
     } else if(document.getElementById("sProvincia") && event.target.id == "sComunidad" && event.target.value != 11)
