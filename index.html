@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/estilo.css">
         <title>Validación de Formularios</title>
     </head>
@@ -42,7 +41,7 @@
                     <label for="iEmail">Email</label>
                     </div>
                     <div class="col-75">
-                    <input type="email" id="iEmail" placeholder="Correo eléctrico...">
+                    <input type="email" id="iEmail" placeholder="Correo eléctrico..." pattern="[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*@[a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{1,5}" >
                     </div>
                 </div>
                 <div class="row">
@@ -58,7 +57,7 @@
                     <label for="iTelefono">Teléfono</label>
                     </div>
                     <div class="col-75">
-                    <input type="text" id="iTelefono" placeholder="Teléfono... mi caaasa...">
+                    <input type="text" id="iTelefono" placeholder="Teléfono">
                     </div>
                 </div>
                 <div class="row">
@@ -86,14 +85,14 @@
                     <p>¿Le gusta el brócoli?</p>
                     </div>
                     <div class="col-75">
-                    <label for=rSi>Sí</label><input type=radio id=rSi name=brocoli value=si />
+                    <label id="brocoliSi" for=rSi>Sí</label><input type=radio id=rSi name=brocoli value=si />
                     <label for=rSi>No</label><input type=radio id=rNo name=brocoli value=no />
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-25">&nbsp;</div>
                     <div class="col-75">
-                    <label for=iPolitica>Acepta política de Privacidad </label><input type=checkbox id=iPolitica />
+                    <label id="labelPolitica" for=iPolitica>Acepta política de Privacidad </label><input type=checkbox id=iPolitica />
                     </div>
                 <br>
                 <div class="row">

@@ -28,28 +28,50 @@ function validar(event) {
     let arrayErrores = [];
     let hayError = false;
 
+    
+    //Reseteamos campos.
+    for(let campos of document.querySelectorAll("input[type=text], input[type=email], input[type=number], label#labelPolitica")) {
+        campos.style.backgroundColor = "#f2f2f2";
+    }
+
     //Comprobamos que el nombre tiene más de 3 caracteres.
     if(!document.getElementById("iNombre").value.match("[a-zA-Z]{3}")){
         arrayErrores.push("El campo de nombre no está rellenado o tiene muy pocos carácteres");
         hayError = true;
+
+        document.getElementById("iNombre").style.backgroundColor = "#E82512";
     }
     
     //Comprobamos que los apellidos tienen dos palabras al menos.
     if(document.getElementById("iApellidos").value.length < 2) {
         arrayErrores.push("El campo de apellidos no está rellenado o tiene muy pocos carácteres");
         hayError = true;
+
+        document.getElementById("iApellidos").style.backgroundColor = "#E82512";
+    }
+
+    //Comprobamos que el email sea correcto cogiendo el pattern del HTML.
+    if(document.getElementById("iEdad").value == "") {
+        arrayErrores.push("El campo edad no está rellenado o tiene un formato incorrecto");
+        hayError = true;
+
+        document.getElementById("iEdad").style.backgroundColor = "#E82512";
+    }
+
+    //Comprobamos que el email sea correcto cogiendo el pattern del HTML.
+    if(!document.getElementById("iEmail").pattern || document.getElementById("iEmail").value == "") {
+        arrayErrores.push("El campo Email no está rellenado o tiene un formato incorrecto");
+        hayError = true;
+
+        document.getElementById("iEmail").style.backgroundColor = "#E82512";
     }
 
     //Comprobamos que el NIF sea correcto cogiendo el pattern del HTML.
-    if(!document.getElementById("iNIF").pattern) {
+    if(!document.getElementById("iNIF").pattern || document.getElementById("iNIF").value == "") {
         arrayErrores.push("El campo NIF no está rellenado o tiene un formato incorrecto");
         hayError = true;
-    }
 
-    //Comprobamos que haya aceptado la P.P
-    if(!document.getElementById("iPolitica").checked) {
-        arrayErrores.push("No has aceptado la política de privacidad");
-        hayError = true;
+        document.getElementById("iNIF").style.backgroundColor = "#E82512";
     }
 
     //Comprobamos que el nombre tenga más de 2 letras.
@@ -58,17 +80,33 @@ function validar(event) {
         return false;
     }*/
 
-    //Si eres Asturiano y te gusta el brócoli, pa fuera.
-    if(document.getElementById("rSi").checked && document.getElementById("sComunidad").options[2]) {
-        arrayErrores.push("Si eres de Asturias no puede gustarte el brócoli.");
-        hayError = true;
-    }
-    
+
     //Comprobación regex del teléfono.
     if(!document.getElementById("iTelefono").value.match("[0-9]{9}")) {
         arrayErrores.push("El campo de teléfono no está rellenado o tiene un formato incorrecto");
         hayError = true;
+
+        document.getElementById("iTelefono").style.backgroundColor = "#E82512";
     }
+
+    //Si eres Asturiano y te gusta el brócoli, pa fuera.
+    if(document.getElementById("rSi").checked && document.getElementById("sComunidad").options[2]) {
+        arrayErrores.push("Si eres de Asturias no puede gustarte el brócoli.");
+        hayError = true;
+
+        document.getElementById("brocoliSi").style.backgroundColor = "#E82512";
+    }
+
+    
+    //Comprobamos que haya aceptado la P.P
+    if(!document.getElementById("iPolitica").checked) {
+        arrayErrores.push("No has aceptado la política de privacidad");
+        hayError = true;
+
+        document.getElementById("labelPolitica").style.backgroundColor = "#E82512";
+    }
+    
+  
 
     /*
         _______________________________
@@ -81,23 +119,26 @@ function validar(event) {
         errores(arrayErrores);
         return false;
     }
-
-    //Si se ha enviado correctamente, resetear errores.
-    console.log("valida");
-
 }
 
 /**
- * Función que crea una lista con todos los errores.
+ * Función que crea una lista con todos los errores del formulario.
  * @param {*} arrayErrores - Array con la lista de todos los errores del formulario.
  */
 function errores(arrayErrores) {
+
+    //Si ya existe el error lo eliminamos.
+    if(document.getElementById("listaErrores")) document.getElementById("listaErrores").remove();
 
     let div = document.createElement("div");
     div.id = "listaErrores";
 
     let ul = document.createElement("ul");;
     let li = null;
+
+    let h4 = document.createElement("h4");
+    h4.textContent = "Se ha producido el siguiente error al enviar el formulario:"
+    div.appendChild(h4);
 
     //Recorrer un array con el texto de cada error.
     for(let errores of arrayErrores ){
@@ -107,6 +148,7 @@ function errores(arrayErrores) {
 
         ul.appendChild(li);
     }
+
 
     div.appendChild(ul);
 
