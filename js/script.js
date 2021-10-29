@@ -8,8 +8,22 @@
 
 
 window.onload = iniciar;
-window.onclick = clicks;
+//window.onclick = clicks;
+let bAsturias = false;
 
+document.getElementById("sComunidad").onchange = function test() {      
+    //Bool si es asturias  
+    if(document.getElementById("sComunidad". value == 3)){
+        bAsturias = true;
+    }
+    if(document.getElementById("sComunidad").value == 11)
+        provincia();
+    else if(document.getElementById("sProvincia") && document.getElementById("sComunidad").value != 11)
+        document.querySelectorAll(".row")[7].remove();
+    //} else if(document.getElementById("sProvincia") && event.target.id == "sComunidad" && event.target.value != 11)
+
+
+}
 function iniciar() {
     let form = document.forms[0];
     form.onsubmit = validar;
@@ -21,6 +35,7 @@ function iniciar() {
  * @returns - Devuelve false si algún dato es incorrecto.
  */
 function validar(event) {
+
     
     //event.preventDefault();
 
@@ -90,12 +105,28 @@ function validar(event) {
     }
 
     //Si eres Asturiano y te gusta el brócoli, pa fuera.
-    if(document.getElementById("rSi").checked && document.getElementById("sComunidad").options[2]) {
+    /*if(document.getElementById("rSi").checked && document.getElementById("sComunidad").value == 3) {
+        arrayErrores.push("Si eres de Asturias no puede gustarte el brócoli.");
+        hayError = true;
+
+        document.getElementById("brocoliSi").style.backgroundColor = "#E82512";
+    }*/
+
+    /*document.getElementById("sComunidad").onchange = function test() {        
+        arrayErrores.push("Si eres de Asturias no puede gustarte el brócoli.");
+        hayError = true;
+
+        document.getElementById("brocoliSi").style.backgroundColor = "#E82512";
+
+    }*/
+
+    if(bAsturias) {
         arrayErrores.push("Si eres de Asturias no puede gustarte el brócoli.");
         hayError = true;
 
         document.getElementById("brocoliSi").style.backgroundColor = "#E82512";
     }
+
 
     
     //Comprobamos que haya aceptado la P.P
