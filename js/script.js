@@ -8,22 +8,30 @@
 
 
 window.onload = iniciar;
-//window.onclick = clicks;
+//window.onclick = clicks; <- En navegadores como firefox, funciona diferente y se comporta diferente.
+
 let bAsturias = false;
 
+//Evento on change. Comprobamos los selects de las CCAA
 document.getElementById("sComunidad").onchange = function test() {      
     //Bool si es asturias  
-    if(document.getElementById("sComunidad". value == 3)){
+    if(document.getElementById("sComunidad").value == 3)
         bAsturias = true;
-    }
+    else
+        bAsturias = false;
+
+    
+    //Comprobaciones Extremadura.
     if(document.getElementById("sComunidad").value == 11)
         provincia();
     else if(document.getElementById("sProvincia") && document.getElementById("sComunidad").value != 11)
         document.querySelectorAll(".row")[7].remove();
-    //} else if(document.getElementById("sProvincia") && event.target.id == "sComunidad" && event.target.value != 11)
-
-
 }
+
+/**
+ * Función de inicio del programa.
+ * Llama a la función validar al darle al botón de 'Submit'
+ */
 function iniciar() {
     let form = document.forms[0];
     form.onsubmit = validar;
@@ -44,8 +52,8 @@ function validar(event) {
     let hayError = false;
 
     
-    //Reseteamos campos.
-    for(let campos of document.querySelectorAll("input[type=text], input[type=email], input[type=number], label#labelPolitica")) {
+    //Reseteamos los estilos de los campos.
+    for(let campos of document.querySelectorAll("input[type=text], input[type=email], input[type=number], label#labelPolitica, label#brocoliSi")) {
         campos.style.backgroundColor = "#f2f2f2";
     }
 
@@ -89,13 +97,6 @@ function validar(event) {
         document.getElementById("iNIF").style.backgroundColor = "#E82512";
     }
 
-    //Comprobamos que el nombre tenga más de 2 letras.
-    /*if(document.getElementById("iNombre").value.length <2) {
-        document.getElementById("iNombre").focus();
-        return false;
-    }*/
-
-
     //Comprobación regex del teléfono.
     if(!document.getElementById("iTelefono").value.match("[0-9]{9}")) {
         arrayErrores.push("El campo de teléfono no está rellenado o tiene un formato incorrecto");
@@ -105,29 +106,12 @@ function validar(event) {
     }
 
     //Si eres Asturiano y te gusta el brócoli, pa fuera.
-    /*if(document.getElementById("rSi").checked && document.getElementById("sComunidad").value == 3) {
-        arrayErrores.push("Si eres de Asturias no puede gustarte el brócoli.");
-        hayError = true;
-
-        document.getElementById("brocoliSi").style.backgroundColor = "#E82512";
-    }*/
-
-    /*document.getElementById("sComunidad").onchange = function test() {        
-        arrayErrores.push("Si eres de Asturias no puede gustarte el brócoli.");
-        hayError = true;
-
-        document.getElementById("brocoliSi").style.backgroundColor = "#E82512";
-
-    }*/
-
-    if(bAsturias) {
+    if(document.getElementById("rSi").checked && bAsturias) {
         arrayErrores.push("Si eres de Asturias no puede gustarte el brócoli.");
         hayError = true;
 
         document.getElementById("brocoliSi").style.backgroundColor = "#E82512";
     }
-
-
     
     //Comprobamos que haya aceptado la P.P
     if(!document.getElementById("iPolitica").checked) {
@@ -136,8 +120,6 @@ function validar(event) {
 
         document.getElementById("labelPolitica").style.backgroundColor = "#E82512";
     }
-    
-  
 
     /*
         _______________________________
@@ -183,11 +165,11 @@ function errores(arrayErrores) {
 
     div.appendChild(ul);
 
-    document.body.insertBefore(div,document.querySelector(".container"));
-    
+    document.body.insertBefore(div,document.querySelector(".container"));  
 }
 
 /**
+ * [OBSOLETO] -> En firefox no tiene el comportamiento adecuado.
  * Función que controla a que elemento se le ha hecho click.
  * @param {*} event - Evento del click
  */
@@ -231,8 +213,6 @@ function provincia() {
     oBadajoz.textContent = "Badajoz";
 
    
-
-
     row.appendChild(divTexto);
     divTexto.appendChild(label);
 
